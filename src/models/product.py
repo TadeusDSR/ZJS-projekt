@@ -3,8 +3,7 @@ class Product:
 		self.product_id = product_id
 		self.name = name
 		self.category = category
-		self._price = None
-		self.price = price
+		self._price = price
 
 	@property
 	def price(self):
