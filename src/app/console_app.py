@@ -123,13 +123,48 @@ class ConsoleApp:
 
 		stats = SalesStatistics(self.dataset)
 
-		filename = f"{self.metadata['index']}_raport_{datetime.now().strftime('%Y-%m-%d_%H%M%S')}.txt"
-		path = os.path.join(self.reports_dir, filename)
+		now = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+		index = self.metadata.get("index", "unknown")
 
-		content = f"Raport\nPrzychód: {stats.total_revenue()}\n"
+		filename = f"{index}_raport_{now}.txt"
+		path = f"{self.reports_dir}/{filename}"
 
-		self.processor.save_txt(path, content)
-		print("Zapisano:", path)
+		total = stats.total_revenue()
+		avg = stats.average_transaction()
+
+		lines = []
+
+		# DATASET
+		lines.append("=== DATASET ===")
+		for k, v in self.metadata.items():
+			lines.append(f"{k}: {v}")
+
+		# STATYSTYKI
+		lines.append("\n=== STATYSTYKI ===")
+		lines.append(f"Łączny przychód: {total:.2f} PLN")
+		lines.append(f"Średnia transakcja: {avg:.2f} PLN")
+		lines.append(f"Liczba transakcji: {len(self.dataset)}")
+
+		# MIESIĄCE
+		lines.append("\n=== MIESIĘCZNIE ===")
+		for k, v in stats.monthly_summary().items():
+			lines.append(f"{k}: {v:.2f} PLN")
+
+		# SPRZEDAWCY
+		lines.append("\n=== SPRZEDAWCY ===")
+		for k, v in stats.by_seller().items():
+			lines.append(f"{k}: {v:.2f} PLN")
+
+		# REGIONY
+		lines.append("\n=== REGIONY ===")
+		for k, v in stats.by_region().items():
+			lines.append(f"{k}: {v:.2f} PLN")
+
+		# ZAPIS
+		with open(path, "w", encoding="utf-8") as f:
+			f.write("\n".join(lines))
+
+		print("Raport zapisany:", path)
 
 	def export_json(self):
 		if not self.dataset:
