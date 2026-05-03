@@ -66,6 +66,12 @@ class ConsoleApp:
 				if len(self.errors) > 10:
 					print(f"... +{len(self.errors)-10} więcej")
 
+		except FileNotFoundError:
+			print("Błąd: plik nie istnieje")
+
+		except PermissionError:
+			print("Błąd: brak uprawnień do pliku")
+
 		except SdfParseError as e:
 				print("BŁĄD KRYTYCZNY:", e)
 
