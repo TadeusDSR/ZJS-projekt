@@ -18,9 +18,9 @@ class FileProcessor:
 			with open(path, encoding="utf-8") as f:
 				lines = f.readlines()
 		except FileNotFoundError:
-			raise
+			raise SdfParseError(f"Plik nie istnieje: {path}")
 		except PermissionError:
-			raise
+			raise SdfParseError(f"Brak dostępu do pliku: {path}")
 
 		dataset = SalesDataset()
 		products = {}
