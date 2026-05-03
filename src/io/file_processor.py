@@ -14,8 +14,13 @@ class FileProcessor:
 	VALID_REGIONS = {"WA","KR","GD","PO","WR","LO","RZ","BY","ZG","OP"}
 
 	def parse_sdf(self, path):
-		with open(path, encoding="utf-8") as f:
-			lines = f.readlines()
+		try:
+			with open(path, encoding="utf-8") as f:
+				lines = f.readlines()
+		except FileNotFoundError:
+			raise
+		except PermissionError:
+			raise
 
 		dataset = SalesDataset()
 		products = {}
