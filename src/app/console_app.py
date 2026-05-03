@@ -75,10 +75,12 @@ class ConsoleApp:
 			return
 
 		stats = SalesStatistics(dataset)
-
+		
 		total = stats.total_revenue()
-		print("Przychód:", total)
-		print("Średnia:", stats.average_transaction())
+		avg = stats.average_transaction()
+
+		print(f"Przychód: {total:,.2f} PLN".replace(",", " "))
+		print(f"Średnia: {avg:,.2f} PLN".replace(",", " "))
 
 		print("\nTop produkty:")
 		for p, v in stats.top_products():
