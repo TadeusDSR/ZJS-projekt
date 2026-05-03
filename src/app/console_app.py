@@ -90,20 +90,20 @@ class ConsoleApp:
 			print(f"Najlepszy miesiąc: {month[0]} ({month[1]:.2f} PLN)")
 
 		print("\nPrzychód wg kategorii:")
-    cat = stats.by_category()
-    for k, v in cat.items():
-        pct = v / total * 100
-        print(f"{k}: {v:.2f} PLN ({pct:.1f}%)")
+		cat = stats.by_category()
+		for k, v in cat.items():
+			pct = v / total * 100
+			print(f"{k}: {v:.2f} PLN ({pct:.1f}%)")
 
-		 print("\nPrzychód wg regionów:")
-    reg = stats.by_region()
-    for k, v in reg.items():
-        pct = v / total * 100
-        print(f"{k}: {v:.2f} PLN ({pct:.1f}%)")
+		print("\nPrzychód wg regionów:")
+		reg = stats.by_region()
+		for k, v in cat.items():
+			pct = v / total * 100
+			print(f"{k}: {v:.2f} PLN ({pct:.1f}%)")
 
 		print("\nTop produkty:")
-    for p, v in stats.top_products():
-        print(f"{p}: {v:.2f} PLN")
+		for p, v in stats.top_products():
+			print(f"{p}: {v:.2f} PLN")
 
 	def filter_menu(self):
 		if not self.dataset:
