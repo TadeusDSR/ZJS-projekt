@@ -58,6 +58,7 @@ class ConsoleApp:
 
 			print(f"Wczytano: {len(self.dataset)}")
 			print(f"Odrzucono: {len(self.errors)}")
+			print(f"Produkty: {len(self.dataset.categories())}")
 
 			if self.errors:
 				for e in self.errors[:10]:
