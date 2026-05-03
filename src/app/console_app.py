@@ -46,7 +46,6 @@ class ConsoleApp:
 				print("Błąd:", e)
 
 	def print_header(self):
-			print("\n=== SYSTEM SPRZEDAŻY ===")
 			if self.metadata:
 				print(f"{self.metadata.get('owner')} | {self.metadata.get('index')}")
 			if self.dataset:
