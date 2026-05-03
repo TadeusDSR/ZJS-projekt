@@ -83,10 +83,12 @@ class ConsoleApp:
 		print(f"Średnia: {avg:,.2f} PLN".replace(",", " "))
 		print(f"Liczba transakcji: {len(dataset)}")
 
-		if stats.best_seller():
+		best = stats.best_seller()
+		if best:
 			print(f"Najlepszy sprzedawca: {best[0]} ({best[1]:.2f} PLN)")
 
-		if stats.best_month():
+		month = stats.best_month()
+		if month:
 			print(f"Najlepszy miesiąc: {month[0]} ({month[1]:.2f} PLN)")
 
 		print("\nPrzychód wg kategorii:")
@@ -97,7 +99,7 @@ class ConsoleApp:
 
 		print("\nPrzychód wg regionów:")
 		reg = stats.by_region()
-		for k, v in cat.items():
+		for k, v in reg.items():
 			pct = v / total * 100
 			print(f"{k}: {v:.2f} PLN ({pct:.1f}%)")
 
