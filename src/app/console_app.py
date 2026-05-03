@@ -220,6 +220,10 @@ class ConsoleApp:
 			print("Brak danych")
 			return
 
+		dates = [r.date for r in self.dataset]
+		print("Liczba rekordów:", len(self.dataset))
+		print("Liczba produktów:", len(self.dataset.categories()))
+		print("Zakres dat:", min(dates), "-", max(dates))
 		print("Kategorie:", self.dataset.categories())
 		print("Sprzedawcy:", self.dataset.sellers())
 		print("Regiony:", self.dataset.regions())
