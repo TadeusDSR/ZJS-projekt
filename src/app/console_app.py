@@ -198,7 +198,14 @@ class ConsoleApp:
 
 		data = {
 			"metadata": self.metadata,
-			"total": stats.total_revenue(),
+			"statistics": {
+				"total": stats.total_revenue,
+				"avarage": stats.average_transaction(),
+				"by_category": stats.by_category(),
+				"by_region": stats.by_region(),
+				"by_seller": stats.by_seller(),
+				"monthly": stats.monthly_summary()
+			}
 			"records": [r.to_dict() for r in self.dataset]
 		}
 
