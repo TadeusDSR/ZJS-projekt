@@ -205,7 +205,7 @@ class ConsoleApp:
 				"by_region": stats.by_region(),
 				"by_seller": stats.by_seller(),
 				"monthly": stats.monthly_summary()
-			}
+			},
 			"records": [r.to_dict() for r in self.dataset]
 		}
 
