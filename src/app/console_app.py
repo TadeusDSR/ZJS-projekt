@@ -140,6 +140,7 @@ class ConsoleApp:
 			d2 = datetime.strptime(input("Do: "), "%d.%m.%Y").date()
 			ds = self.dataset.filter_by_date_range(d1, d2)
 		else:
+			print("Niepoprawna opcja")
 			return
 
 		print(f"Wynik: {len(ds)}")
