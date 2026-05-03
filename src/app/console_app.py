@@ -86,27 +86,27 @@ class ConsoleApp:
 
 		best = stats.best_seller()
 		if best:
-			print(f"Najlepszy sprzedawca: {best[0]} ({best[1]:.2f} PLN)")
+			print(f"Najlepszy sprzedawca: {best[0]} ({best[1]:,.2f} PLN)".replace(",", " "))
 
 		month = stats.best_month()
 		if month:
-			print(f"Najlepszy miesiąc: {month[0]} ({month[1]:.2f} PLN)")
+			print(f"Najlepszy miesiąc: {month[0]} ({month[1]:,.2f} PLN)".replace(",", " "))
 
 		print("\nPrzychód wg kategorii:")
 		cat = stats.by_category()
 		for k, v in cat.items():
 			pct = v / total * 100
-			print(f"{k}: {v:.2f} PLN ({pct:.1f}%)")
+			print(f"{k}: {v:,.2f} PLN ({pct:,.1f}%)".replace(",", " "))
 
 		print("\nPrzychód wg regionów:")
 		reg = stats.by_region()
 		for k, v in reg.items():
 			pct = v / total * 100
-			print(f"{k}: {v:.2f} PLN ({pct:.1f}%)")
+			print(f"{k}: {v:,.2f} PLN ({pct:,.1f}%)".replace(",", " "))
 
 		print("\nTop produkty:")
 		for p, v in stats.top_products():
-			print(f"{p}: {v:.2f} PLN")
+			print(f"{p}: {v:,.2f} PLN".replace(",", " "))
 
 	def filter_menu(self):
 		if not self.dataset:
@@ -164,24 +164,24 @@ class ConsoleApp:
 
 		# STATYSTYKI
 		lines.append("\n=== STATYSTYKI ===")
-		lines.append(f"Łączny przychód: {total:.2f} PLN")
-		lines.append(f"Średnia transakcja: {avg:.2f} PLN")
+		lines.append(f"Łączny przychód: {total:,.2f} PLN".replace(",", " "))
+		lines.append(f"Średnia transakcja: {avg:,.2f} PLN".replace(",", " "))
 		lines.append(f"Liczba transakcji: {len(self.dataset)}")
 
 		# MIESIĄCE
 		lines.append("\n=== MIESIĘCZNIE ===")
 		for k, v in stats.monthly_summary().items():
-			lines.append(f"{k}: {v:.2f} PLN")
+			lines.append(f"{k}: {v:,.2f} PLN".replace(",", " "))
 
 		# SPRZEDAWCY
 		lines.append("\n=== SPRZEDAWCY ===")
 		for k, v in stats.by_seller().items():
-			lines.append(f"{k}: {v:.2f} PLN")
+			lines.append(f"{k}: {v:,.2f} PLN".replace(",", " "))
 
 		# REGIONY
 		lines.append("\n=== REGIONY ===")
 		for k, v in stats.by_region().items():
-			lines.append(f"{k}: {v:.2f} PLN")
+			lines.append(f"{k}: {v:,.2f} PLN".replace(",", " "))
 
 		# ZAPIS
 		with open(path, "w", encoding="utf-8") as f:
