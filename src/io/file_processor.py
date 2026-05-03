@@ -29,35 +29,39 @@ class FileProcessor:
 		section = None
 		metadata = {}
 
+		expected_order = ["DATASET", "PRODUCTS", "TRANSACTIONS"]
+		current_index = 0
+
 		for i, raw in enumerate(lines, start=1):
 			line = raw.strip()
 
 			if not line or line == "---":
 				continue
 
-			# sekcje
 			if line.startswith("#"):
-				if line == "#DATASET":
-						section = "DATASET"
-				elif line == "#PRODUCTS":
-						section = "PRODUCTS"
-				elif line == "#TRANSACTIONS":
-						section = "TRANSACTIONS"
-				continue
+				if current_index >= len(expected_order):
+					raise SdfParseError("Za dużo sekcji w pliku")
+				section_name = line[1:]
 
+				if section_name != expected_order[current_index]:
+					raise SdfParseError(f"Błędna kolejność sekcji. Oczekiwano #{expected_order[current_index]}, otrzymano #{section_name}")
+
+				current_index += 1
+				section = section_name
+				continue
+			
 			try:
-				# DATASET
-				if section == "DATASET":
+				if section is None:
+					raise SdfParseError("Brak sekcji")
+				elif section == "DATASET":
 					if ":" in line:
 						k, v = line.split(":", 1)
 						metadata[k.strip()] = v.strip()
 
-				# PRODUCTS
 				elif section == "PRODUCTS":
 					pid, name, cat, price = line.split("|")
 					products[pid] = Product(pid, name, cat, float(price))
 
-				# TRANSACTIONS
 				elif section == "TRANSACTIONS":
 					d, pid, qty, seller, region = line.split("|")
 
