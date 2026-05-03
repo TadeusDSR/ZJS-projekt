@@ -199,7 +199,7 @@ class ConsoleApp:
 		data = {
 			"metadata": self.metadata,
 			"statistics": {
-				"total": stats.total_revenue,
+				"total": stats.total_revenue(),
 				"avarage": stats.average_transaction(),
 				"by_category": stats.by_category(),
 				"by_region": stats.by_region(),
