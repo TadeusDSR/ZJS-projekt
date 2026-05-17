@@ -2,11 +2,14 @@ from datetime import datetime
 
 class SaleRecord:
 	def __init__(self, product, quantity, date, seller, region):
-			self._product = product
-			self.quantity = quantity
-			self._date = date
-			self._seller = seller
-			self._region = region
+		if not seller.strip():
+			raise ValueError("Pusty sprzedawca")
+		
+		self._product = product
+		self.quantity = quantity
+		self._date = date
+		self._seller = seller
+		self._region = region
 
 	@property
 	def product(self):
