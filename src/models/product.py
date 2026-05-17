@@ -1,5 +1,14 @@
 class Product:
 	def __init__(self, product_id, name, category, price):
+		if not (4 <= len(product_id) <= 10):
+			raise ValueError(f"Nieprawidłowy product_id: {product_id}")
+		
+		if not name.strip():
+			raise ValueError("Pusta nazwa produktu")
+		
+		if not category.strip():
+			raise ValueError("Pusta kategoria")
+
 		self.product_id = product_id
 		self.name = name
 		self.category = category
