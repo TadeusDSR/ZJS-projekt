@@ -60,16 +60,16 @@ class FileProcessor:
 					products[pid] = Product(pid, name, cat, float(price))
 
 				elif section == "TRANSACTIONS":
-					d, pid, qty, seller, region = line.split("|")
+					date, pid, quantity, seller, region = line.split("|")
 
 					if pid not in products:
 						raise ValueError("Nieznany produkt")
 
-					date_obj = datetime.strptime(d, "%d.%m.%Y").date()
+					date_obj = datetime.strptime(date, "%d.%m.%Y").date()
 
 					dataset.add(SaleRecord(
 						products[pid],
-						int(qty),
+						int(quantity),
 						date_obj,
 						seller,
 						region
