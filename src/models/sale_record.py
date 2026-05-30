@@ -3,7 +3,7 @@ from datetime import datetime
 class SaleRecord:
 	def __init__(self, product, quantity, date, seller, region):
 		VALID_REGIONS = {"WA","KR","GD","PO","WR","LO","RZ","BY","ZG","OP"}
-		
+
 		if not seller.strip():
 			raise ValueError("Pusty sprzedawca")
 	
@@ -27,7 +27,7 @@ class SaleRecord:
 	@quantity.setter
 	def quantity(self, value):
 		if value < 1:
-			raise ValueError("Ilość >= 1")
+			raise ValueError("Ilość >= 0")
 		self._quantity = value
 
 	@property

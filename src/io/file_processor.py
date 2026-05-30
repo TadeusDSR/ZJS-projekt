@@ -62,9 +62,6 @@ class FileProcessor:
 				elif section == "TRANSACTIONS":
 					d, pid, qty, seller, region = line.split("|")
 
-					if int(qty) < 1:
-						raise ValueError("Ilość <= 0")
-
 					if pid not in products:
 						raise ValueError("Nieznany produkt")
 
