@@ -2,9 +2,14 @@ from datetime import datetime
 
 class SaleRecord:
 	def __init__(self, product, quantity, date, seller, region):
+		VALID_REGIONS = {"WA","KR","GD","PO","WR","LO","RZ","BY","ZG","OP"}
+		
 		if not seller.strip():
 			raise ValueError("Pusty sprzedawca")
-		
+	
+		if not region in VALID_REGIONS:
+			raise ValueError("Nieprawidowy region")
+
 		self._product = product
 		self.quantity = quantity
 		self._date = date

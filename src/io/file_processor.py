@@ -10,9 +10,6 @@ class SdfParseError(Exception):
 
 
 class FileProcessor:
-
-	VALID_REGIONS = {"WA","KR","GD","PO","WR","LO","RZ","BY","ZG","OP"}
-
 	def parse_sdf(self, path):
 		try:
 			with open(path, encoding="utf-8") as f:
@@ -70,9 +67,6 @@ class FileProcessor:
 
 					if pid not in products:
 						raise ValueError("Nieznany produkt")
-
-					if region not in self.VALID_REGIONS:
-						raise ValueError("Nieprawidłowy region")
 
 					date_obj = datetime.strptime(d, "%d.%m.%Y").date()
 
