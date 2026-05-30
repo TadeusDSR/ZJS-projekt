@@ -9,9 +9,9 @@ class Product:
 		if not category.strip():
 			raise ValueError("Pusta kategoria")
 
-		self.product_id = product_id
-		self.name = name
-		self.category = category
+		self._product_id = product_id
+		self._name = name
+		self._category = category
 		self.price = price
 
 	@property
