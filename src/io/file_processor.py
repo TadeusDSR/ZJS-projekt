@@ -23,11 +23,11 @@ class FileProcessor:
 		products = {}
 		errors = []
 
-		section = None
 		metadata = {}
 
 		expected_order = ["DATASET", "PRODUCTS", "TRANSACTIONS"]
 		current_index = 0
+		section = None
 
 		for i, raw in enumerate(lines, start=1):
 			line = raw.strip()
@@ -38,6 +38,7 @@ class FileProcessor:
 			if line.startswith("#"):
 				if current_index >= len(expected_order):
 					raise SdfParseError("Za dużo sekcji w pliku")
+				
 				section_name = line[1:]
 
 				if section_name != expected_order[current_index]:
@@ -48,32 +49,55 @@ class FileProcessor:
 				continue
 			
 			try:
-				if section is None:
-					raise SdfParseError("Brak sekcji")
-				elif section == "DATASET":
+				if section == "DATASET":
 					if ":" in line:
-						k, v = line.split(":", 1)
-						metadata[k.strip()] = v.strip()
+						key, value = line.split(":", 1)
+						metadata[key.strip()] = value.strip()
 
 				elif section == "PRODUCTS":
-					pid, name, cat, price = line.split("|")
-					products[pid] = Product(pid, name, cat, float(price))
+					try:
+						try:
+							pid, name, cat, price = line.split("|")
+						except ValueError:
+							raise ValueError("Niepoprawna ilosc pol")
+						
+						try:
+							price = float(price)
+						except ValueError:
+							raise ValueError("Niepoprawna ilosc (musi byc liczba)")
+
+						products[pid] = Product(pid, name, cat, float(price))
+					
+					except ValueError as e:
+						errors.append(f"Linia {i} (PRODUCTS): {e}")
 
 				elif section == "TRANSACTIONS":
-					date, pid, quantity, seller, region = line.split("|")
+					try:
+						try:
+							date, pid, quantity, seller, region = line.split("|")
+						except ValueError:
+							raise ValueError(f"Niepoprawna ilosc pol")
 
-					if pid not in products:
-						raise ValueError("Nieznany produkt")
+						if pid not in products:
+							raise ValueError("Nieznany produkt")
+						
+						try:
+							quantity = int(quantity)
+						except ValueError:
+							raise ValueError("Niepoprawna ilosc (musi byc liczba)")
 
-					date_obj = datetime.strptime(date, "%d.%m.%Y").date()
+						date_obj = datetime.strptime(date, "%d.%m.%Y").date()
 
-					dataset.add(SaleRecord(
-						products[pid],
-						int(quantity),
-						date_obj,
-						seller,
-						region
-				))
+						dataset.add(SaleRecord(
+							products[pid],
+							int(quantity),
+							date_obj,
+							seller,
+							region
+					))
+
+					except ValueError as e:
+						errors.append(f"Linia {i} (TRANSACTIONS): {e}")
 
 			except Exception as e:
 				errors.append(f"Linia {i}: {str(e)}")

@@ -1,14 +1,17 @@
-from datetime import datetime
+import datetime
 
 class SaleRecord:
+	VALID_REGIONS = {"WA","KR","GD","PO","WR","LO","RZ","BY","ZG","OP"}
+	
 	def __init__(self, product, quantity, date, seller, region):
-		VALID_REGIONS = {"WA","KR","GD","PO","WR","LO","RZ","BY","ZG","OP"}
+		if not isinstance(quantity, int):
+			raise ValueError("Ilosc musi byc liczba")
 
 		if not seller.strip():
-			raise ValueError("Pusty sprzedawca")
+			raise ValueError("Sprzedawca nie moze byc pusty")
 	
-		if not region in VALID_REGIONS:
-			raise ValueError("Nieprawidowy region")
+		if not region in self.VALID_REGIONS:
+			raise ValueError("Niepoprawny kod regionu")
 
 		self._product = product
 		self.quantity = quantity
@@ -27,7 +30,7 @@ class SaleRecord:
 	@quantity.setter
 	def quantity(self, value):
 		if value < 1:
-			raise ValueError("Ilość musi byc >= 0")
+			raise ValueError("Ilość musi byc > 0")
 		self._quantity = value
 
 	@property
@@ -43,20 +46,20 @@ class SaleRecord:
 		return self._region
 
 	def total_value(self):
-		return self.quantity * self.product.price
+		return self.quantity * self._product.price
 
 	def to_dict(self):
 		return {
-			"date": self.date.isoformat(),
-			"product_id": self.product.product_id,
-			"name": self.product.name,
-			"category": self.product.category,
+			"date": self._date.isoformat(),
+			"product_id": self._product.product_id,
+			"name": self._product.name,
+			"category": self._product.category,
 			"quantity": self.quantity,
-			"price": self.product.price,
+			"price": self._product.price,
 			"total": self.total_value(),
-			"seller": self.seller,
-			"region": self.region
+			"seller": self._seller,
+			"region": self._region
 		}
 
 	def __str__(self):
-		return f"{self.date} | {self.product.name} | {self.quantity} | {self.total_value():.2f} PLN | {self.seller} | {self.region}"
+		return f"{self._date} {self._product.name} {self.quantity} {self.total_value():.2f} PLN {self._seller} {self._region}"

@@ -1,4 +1,5 @@
 import os
+import json
 from datetime import datetime
 from src.io.file_processor import FileProcessor, SdfParseError
 from src.analysis.statistics import SalesStatistics
@@ -100,19 +101,19 @@ class ConsoleApp:
 
 		print("\nPrzychód wg kategorii:")
 		cat = stats.by_category()
-		for k, v in cat.items():
-			pct = v / total * 100
-			print(f"{k}: {v:,.2f} PLN ({pct:,.1f}%)".replace(",", " "))
+		for key, value in cat.items():
+			pct = value / total * 100
+			print(f"{key}: {value:,.2f} PLN ({pct:,.1f}%)".replace(",", " "))
 
 		print("\nPrzychód wg regionów:")
 		reg = stats.by_region()
-		for k, v in reg.items():
-			pct = v / total * 100
-			print(f"{k}: {v:,.2f} PLN ({pct:,.1f}%)".replace(",", " "))
+		for key, value in reg.items():
+			pct = value / total * 100
+			print(f"{key}: {value:,.2f} PLN ({pct:,.1f}%)".replace(",", " "))
 
 		print("\nTop produkty:")
-		for p, v in stats.top_products():
-			print(f"{p}: {v:,.2f} PLN".replace(",", " "))
+		for product, value in stats.top_products():
+			print(f"{product}: {value:,.2f} PLN".replace(",", " "))
 
 	def filter_menu(self):
 		if not self.dataset:
@@ -157,40 +158,36 @@ class ConsoleApp:
 		index = self.metadata.get("index", "unknown")
 
 		filename = f"{index}_raport_{now}.txt"
-		path = f"{self.reports_dir}/{filename}"
+		path = os.path.join(self.reports_dir, filename)
+
+		os.makedirs(self.reports_dir, exist_ok=True)
 
 		total = stats.total_revenue()
 		avg = stats.average_transaction()
 
 		lines = []
 
-		# DATASET
-		lines.append("=== DATASET ===")
-		for k, v in self.metadata.items():
-			lines.append(f"{k}: {v}")
+		lines.append("DATASET")
+		for key, value in self.metadata.items():
+			lines.append(f"{key}: {value}")
 
-		# STATYSTYKI
-		lines.append("\n=== STATYSTYKI ===")
+		lines.append("\nSTATYSTYKI")
 		lines.append(f"Łączny przychód: {total:,.2f} PLN".replace(",", " "))
 		lines.append(f"Średnia transakcja: {avg:,.2f} PLN".replace(",", " "))
 		lines.append(f"Liczba transakcji: {len(self.dataset)}")
 
-		# MIESIĄCE
-		lines.append("\n=== MIESIĘCZNIE ===")
-		for k, v in stats.monthly_summary().items():
-			lines.append(f"{k}: {v:,.2f} PLN".replace(",", " "))
+		lines.append("\nMIESIĘCZNIE")
+		for key, value in stats.monthly_summary().items():
+			lines.append(f"{key}: {value:,.2f} PLN".replace(",", " "))
 
-		# SPRZEDAWCY
-		lines.append("\n=== SPRZEDAWCY ===")
-		for k, v in stats.by_seller().items():
-			lines.append(f"{k}: {v:,.2f} PLN".replace(",", " "))
+		lines.append("\nSPRZEDAWCY")
+		for key, value in stats.by_seller().items():
+			lines.append(f"{key}: {value:,.2f} PLN".replace(",", " "))
 
-		# REGIONY
-		lines.append("\n=== REGIONY ===")
-		for k, v in stats.by_region().items():
-			lines.append(f"{k}: {v:,.2f} PLN".replace(",", " "))
+		lines.append("\nREGIONY")
+		for key, value in stats.by_region().items():
+			lines.append(f"{key}: {value:,.2f} PLN".replace(",", " "))
 
-		# ZAPIS
 		with open(path, "w", encoding="utf-8") as f:
 			f.write("\n".join(lines))
 
@@ -207,19 +204,26 @@ class ConsoleApp:
 			"metadata": self.metadata,
 			"statistics": {
 				"total": stats.total_revenue(),
-				"avarage": stats.average_transaction(),
+				"average": stats.average_transaction(),
 				"by_category": stats.by_category(),
 				"by_region": stats.by_region(),
 				"by_seller": stats.by_seller(),
 				"monthly": stats.monthly_summary()
 			},
-			"records": [r.to_dict() for r in self.dataset]
+			"records": [record.to_dict() for record in self.dataset]
 		}
 
-		filename = f"{self.metadata['index']}_export_{datetime.now().strftime('%Y-%m-%d_%H%M%S')}.json"
+		now = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+		index = self.metadata.get("index", "unknown")
+
+		filename = f"{index}_export_{now}.json"
 		path = os.path.join(self.reports_dir, filename)
 
-		self.processor.save_json(path, data)
+		os.makedirs(self.reports_dir, exist_ok=True)
+
+		with open(path, "w", encoding="utf-8") as f:
+			json.dump(data, f, indent=2, ensure_ascii=False)
+
 		print("Zapisano:", path)
 
 	def info(self):
@@ -227,7 +231,7 @@ class ConsoleApp:
 			print("Brak danych")
 			return
 
-		dates = [r.date for r in self.dataset]
+		dates = [record.date for record in self.dataset]
 		print("Liczba rekordów:", len(self.dataset))
 		print("Liczba produktów:", len(self.dataset.categories()))
 		print("Zakres dat:", min(dates), "-", max(dates))

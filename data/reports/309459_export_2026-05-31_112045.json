@@ -1,0 +1,483 @@
+{
+  "metadata": {
+    "owner": "Tadeus da Silva Rodrigues",
+    "index": "309459",
+    "created": "20.04.2026",
+    "currency": "PLN"
+  },
+  "statistics": {
+    "total": 239.1,
+    "average": 5.9775,
+    "by_category": {
+      "sprzedaz": 157.1,
+      "poczestunek": 66.0,
+      "czystosc": 16.0
+    },
+    "by_region": {
+      "KR": 49.870000000000005,
+      "BY": 47.36,
+      "GD": 40.480000000000004,
+      "WA": 34.79,
+      "WR": 34.0,
+      "PO": 13.5,
+      "LO": 12.7,
+      "ZG": 6.4
+    },
+    "by_seller": {
+      "EVER": 67.69,
+      "KRZAK": 61.36,
+      "WARS": 58.18,
+      "DUSS": 51.870000000000005
+    },
+    "monthly": {
+      "2025-09": 3.2,
+      "2025-10": 217.40000000000003,
+      "2025-11": 2.5,
+      "2025-12": 3.0,
+      "2026-01": 8.0,
+      "2026-03": 5.0
+    }
+  },
+  "records": [
+    {
+      "date": "2025-10-01",
+      "product_id": "0001",
+      "name": "papier",
+      "category": "czystosc",
+      "quantity": 2,
+      "price": 1.0,
+      "total": 2.0,
+      "seller": "WARS",
+      "region": "GD"
+    },
+    {
+      "date": "2025-10-02",
+      "product_id": "0002",
+      "name": "woda",
+      "category": "poczestunek",
+      "quantity": 1,
+      "price": 2.5,
+      "total": 2.5,
+      "seller": "WARS",
+      "region": "WA"
+    },
+    {
+      "date": "2025-10-03",
+      "product_id": "0003",
+      "name": "sok",
+      "category": "poczestunek",
+      "quantity": 3,
+      "price": 3.5,
+      "total": 10.5,
+      "seller": "EVER",
+      "region": "WR"
+    },
+    {
+      "date": "2026-01-04",
+      "product_id": "0004",
+      "name": "cola",
+      "category": "sprzedaz",
+      "quantity": 1,
+      "price": 4.0,
+      "total": 4.0,
+      "seller": "DUSS",
+      "region": "KR"
+    },
+    {
+      "date": "2025-10-05",
+      "product_id": "0005",
+      "name": "kawa",
+      "category": "sprzedaz",
+      "quantity": 2,
+      "price": 8.99,
+      "total": 17.98,
+      "seller": "KRZAK",
+      "region": "BY"
+    },
+    {
+      "date": "2025-09-06",
+      "product_id": "0006",
+      "name": "herbata",
+      "category": "sprzedaz",
+      "quantity": 1,
+      "price": 3.2,
+      "total": 3.2,
+      "seller": "WARS",
+      "region": "LO"
+    },
+    {
+      "date": "2025-10-07",
+      "product_id": "0006",
+      "name": "herbata",
+      "category": "sprzedaz",
+      "quantity": 2,
+      "price": 3.2,
+      "total": 6.4,
+      "seller": "EVER",
+      "region": "ZG"
+    },
+    {
+      "date": "2025-10-08",
+      "product_id": "0001",
+      "name": "papier",
+      "category": "czystosc",
+      "quantity": 2,
+      "price": 1.0,
+      "total": 2.0,
+      "seller": "DUSS",
+      "region": "PO"
+    },
+    {
+      "date": "2025-11-09",
+      "product_id": "0002",
+      "name": "woda",
+      "category": "poczestunek",
+      "quantity": 1,
+      "price": 2.5,
+      "total": 2.5,
+      "seller": "KRZAK",
+      "region": "WR"
+    },
+    {
+      "date": "2025-10-10",
+      "product_id": "0003",
+      "name": "sok",
+      "category": "poczestunek",
+      "quantity": 3,
+      "price": 3.5,
+      "total": 10.5,
+      "seller": "WARS",
+      "region": "GD"
+    },
+    {
+      "date": "2025-10-11",
+      "product_id": "0004",
+      "name": "cola",
+      "category": "sprzedaz",
+      "quantity": 2,
+      "price": 4.0,
+      "total": 8.0,
+      "seller": "EVER",
+      "region": "WA"
+    },
+    {
+      "date": "2025-10-12",
+      "product_id": "0005",
+      "name": "kawa",
+      "category": "sprzedaz",
+      "quantity": 1,
+      "price": 8.99,
+      "total": 8.99,
+      "seller": "DUSS",
+      "region": "KR"
+    },
+    {
+      "date": "2025-10-13",
+      "product_id": "0006",
+      "name": "herbata",
+      "category": "sprzedaz",
+      "quantity": 2,
+      "price": 3.2,
+      "total": 6.4,
+      "seller": "KRZAK",
+      "region": "BY"
+    },
+    {
+      "date": "2025-10-14",
+      "product_id": "0002",
+      "name": "woda",
+      "category": "poczestunek",
+      "quantity": 1,
+      "price": 2.5,
+      "total": 2.5,
+      "seller": "WARS",
+      "region": "LO"
+    },
+    {
+      "date": "2025-12-15",
+      "product_id": "0001",
+      "name": "papier",
+      "category": "czystosc",
+      "quantity": 3,
+      "price": 1.0,
+      "total": 3.0,
+      "seller": "EVER",
+      "region": "WR"
+    },
+    {
+      "date": "2026-03-03",
+      "product_id": "0002",
+      "name": "woda",
+      "category": "poczestunek",
+      "quantity": 2,
+      "price": 2.5,
+      "total": 5.0,
+      "seller": "DUSS",
+      "region": "KR"
+    },
+    {
+      "date": "2025-10-17",
+      "product_id": "0003",
+      "name": "sok",
+      "category": "poczestunek",
+      "quantity": 1,
+      "price": 3.5,
+      "total": 3.5,
+      "seller": "KRZAK",
+      "region": "PO"
+    },
+    {
+      "date": "2025-10-18",
+      "product_id": "0004",
+      "name": "cola",
+      "category": "sprzedaz",
+      "quantity": 2,
+      "price": 4.0,
+      "total": 8.0,
+      "seller": "WARS",
+      "region": "GD"
+    },
+    {
+      "date": "2025-10-19",
+      "product_id": "0005",
+      "name": "kawa",
+      "category": "sprzedaz",
+      "quantity": 1,
+      "price": 8.99,
+      "total": 8.99,
+      "seller": "EVER",
+      "region": "WA"
+    },
+    {
+      "date": "2025-10-20",
+      "product_id": "0006",
+      "name": "herbata",
+      "category": "sprzedaz",
+      "quantity": 2,
+      "price": 3.2,
+      "total": 6.4,
+      "seller": "DUSS",
+      "region": "KR"
+    },
+    {
+      "date": "2025-10-21",
+      "product_id": "0001",
+      "name": "papier",
+      "category": "czystosc",
+      "quantity": 1,
+      "price": 1.0,
+      "total": 1.0,
+      "seller": "KRZAK",
+      "region": "BY"
+    },
+    {
+      "date": "2025-10-22",
+      "product_id": "0001",
+      "name": "papier",
+      "category": "czystosc",
+      "quantity": 2,
+      "price": 1.0,
+      "total": 2.0,
+      "seller": "WARS",
+      "region": "LO"
+    },
+    {
+      "date": "2025-10-23",
+      "product_id": "0002",
+      "name": "woda",
+      "category": "poczestunek",
+      "quantity": 3,
+      "price": 2.5,
+      "total": 7.5,
+      "seller": "EVER",
+      "region": "WR"
+    },
+    {
+      "date": "2025-10-24",
+      "product_id": "0003",
+      "name": "sok",
+      "category": "poczestunek",
+      "quantity": 1,
+      "price": 3.5,
+      "total": 3.5,
+      "seller": "DUSS",
+      "region": "KR"
+    },
+    {
+      "date": "2025-10-25",
+      "product_id": "0004",
+      "name": "cola",
+      "category": "sprzedaz",
+      "quantity": 2,
+      "price": 4.0,
+      "total": 8.0,
+      "seller": "KRZAK",
+      "region": "PO"
+    },
+    {
+      "date": "2025-10-26",
+      "product_id": "0005",
+      "name": "kawa",
+      "category": "sprzedaz",
+      "quantity": 1,
+      "price": 8.99,
+      "total": 8.99,
+      "seller": "WARS",
+      "region": "GD"
+    },
+    {
+      "date": "2025-10-27",
+      "product_id": "0006",
+      "name": "herbata",
+      "category": "sprzedaz",
+      "quantity": 2,
+      "price": 3.2,
+      "total": 6.4,
+      "seller": "EVER",
+      "region": "WA"
+    },
+    {
+      "date": "2025-10-28",
+      "product_id": "0005",
+      "name": "kawa",
+      "category": "sprzedaz",
+      "quantity": 1,
+      "price": 8.99,
+      "total": 8.99,
+      "seller": "DUSS",
+      "region": "KR"
+    },
+    {
+      "date": "2025-10-29",
+      "product_id": "0001",
+      "name": "papier",
+      "category": "czystosc",
+      "quantity": 2,
+      "price": 1.0,
+      "total": 2.0,
+      "seller": "KRZAK",
+      "region": "BY"
+    },
+    {
+      "date": "2025-10-30",
+      "product_id": "0002",
+      "name": "woda",
+      "category": "poczestunek",
+      "quantity": 1,
+      "price": 2.5,
+      "total": 2.5,
+      "seller": "WARS",
+      "region": "LO"
+    },
+    {
+      "date": "2025-10-26",
+      "product_id": "0005",
+      "name": "kawa",
+      "category": "sprzedaz",
+      "quantity": 1,
+      "price": 8.99,
+      "total": 8.99,
+      "seller": "WARS",
+      "region": "GD"
+    },
+    {
+      "date": "2025-10-27",
+      "product_id": "0006",
+      "name": "herbata",
+      "category": "sprzedaz",
+      "quantity": 2,
+      "price": 3.2,
+      "total": 6.4,
+      "seller": "EVER",
+      "region": "WA"
+    },
+    {
+      "date": "2025-10-28",
+      "product_id": "0005",
+      "name": "kawa",
+      "category": "sprzedaz",
+      "quantity": 1,
+      "price": 8.99,
+      "total": 8.99,
+      "seller": "DUSS",
+      "region": "KR"
+    },
+    {
+      "date": "2025-10-29",
+      "product_id": "0001",
+      "name": "papier",
+      "category": "czystosc",
+      "quantity": 2,
+      "price": 1.0,
+      "total": 2.0,
+      "seller": "KRZAK",
+      "region": "BY"
+    },
+    {
+      "date": "2025-10-30",
+      "product_id": "0002",
+      "name": "woda",
+      "category": "poczestunek",
+      "quantity": 1,
+      "price": 2.5,
+      "total": 2.5,
+      "seller": "WARS",
+      "region": "LO"
+    },
+    {
+      "date": "2025-10-01",
+      "product_id": "0001",
+      "name": "papier",
+      "category": "czystosc",
+      "quantity": 2,
+      "price": 1.0,
+      "total": 2.0,
+      "seller": "WARS",
+      "region": "GD"
+    },
+    {
+      "date": "2025-10-02",
+      "product_id": "0002",
+      "name": "woda",
+      "category": "poczestunek",
+      "quantity": 1,
+      "price": 2.5,
+      "total": 2.5,
+      "seller": "WARS",
+      "region": "WA"
+    },
+    {
+      "date": "2025-10-03",
+      "product_id": "0003",
+      "name": "sok",
+      "category": "poczestunek",
+      "quantity": 3,
+      "price": 3.5,
+      "total": 10.5,
+      "seller": "EVER",
+      "region": "WR"
+    },
+    {
+      "date": "2026-01-04",
+      "product_id": "0004",
+      "name": "cola",
+      "category": "sprzedaz",
+      "quantity": 1,
+      "price": 4.0,
+      "total": 4.0,
+      "seller": "DUSS",
+      "region": "KR"
+    },
+    {
+      "date": "2025-10-05",
+      "product_id": "0005",
+      "name": "kawa",
+      "category": "sprzedaz",
+      "quantity": 2,
+      "price": 8.99,
+      "total": 17.98,
+      "seller": "KRZAK",
+      "region": "BY"
+    }
+  ]
+}
