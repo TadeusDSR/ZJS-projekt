@@ -14,30 +14,30 @@ class SalesStatistics:
 
   def revenue_by(self, key_func):
     result = defaultdict(float)
-    for r in self.dataset:
-      result[key_func(r)] += r.total_value()
+    for record in self.dataset:
+      result[key_func(record)] += record.total_value()
     return dict(sorted(result.items(), key=lambda x: x[1], reverse=True))
 
   def by_category(self):
-    return self.revenue_by(lambda r: r.product.category)
+    return self.revenue_by(lambda record: record.product.category)
 
   def by_seller(self):
-    return self.revenue_by(lambda r: r.seller)
+    return self.revenue_by(lambda record: record.seller)
 
   def by_region(self):
-    return self.revenue_by(lambda r: r.region)
+    return self.revenue_by(lambda record: record.region)
 
   def monthly_summary(self):
     result = defaultdict(float)
-    for r in self.dataset:
-      key = r.date.strftime("%Y-%m")
-      result[key] += r.total_value()
+    for record in self.dataset:
+      key = record.date.strftime("%Y-%m")
+      result[key] += record.total_value()
     return dict(sorted(result.items()))
 
   def top_products(self, n=5):
     result = defaultdict(float)
-    for r in self.dataset:
-      result[r.product.name] += r.total_value()
+    for record in self.dataset:
+      result[record.product.name] += record.total_value()
     return sorted(result.items(), key=lambda x: x[1], reverse=True)[:n]
 
   def best_seller(self):

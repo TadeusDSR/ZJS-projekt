@@ -21,7 +21,7 @@ class Product:
 		self._product_id = product_id
 		self._name = name
 		self._category = category
-		self.price = float(price)
+		self.price = price
 
 	@property
 	def product_id(self):
