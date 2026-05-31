@@ -84,7 +84,7 @@ class FileProcessor:
 						try:
 							quantity = int(quantity)
 						except ValueError:
-							raise ValueError("Niepoprawna ilosc (musi byc liczba)")
+							raise ValueError("Ilosc musi byc liczba")
 
 						date_obj = datetime.strptime(date, "%d.%m.%Y").date()
 
