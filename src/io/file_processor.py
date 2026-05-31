@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from src.models.product import Product
 from src.models.sale_record import SaleRecord
@@ -100,6 +99,6 @@ class FileProcessor:
 						errors.append(f"Linia {i} (TRANSACTIONS): {e}")
 
 			except Exception as e:
-				errors.append(f"Linia {i}: {str(e)}")
+				errors.append(f"Linia {i}: {e}")
 
 		return dataset, errors, metadata
