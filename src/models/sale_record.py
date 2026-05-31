@@ -29,6 +29,11 @@ class SaleRecord:
 
 	@quantity.setter
 	def quantity(self, value):
+		try:
+			value = int(value)
+		except ValueError:
+			raise ValueError("Ilosc musi byc liczba")
+
 		if value < 1:
 			raise ValueError("Ilość musi byc > 0")
 		self._quantity = value

@@ -11,6 +11,7 @@ currency: PLN
 0004|cola|sprzedaz|4.00
 0005|kawa|sprzedaz|8.99
 0006|herbata|sprzedaz|3.20
+0007|dwa|sprzedaz|adwada
 ---
 #TRANSACTIONS
 01.10.2025|0001|2|WARS|GD

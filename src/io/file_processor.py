@@ -61,12 +61,12 @@ class FileProcessor:
 						except ValueError:
 							raise ValueError("Niepoprawna ilosc pol")
 						
-						try:
-							price = float(price)
-						except ValueError:
-							raise ValueError("Niepoprawna ilosc (musi byc liczba)")
+						# try:
+						# 	price = float(price)
+						# except ValueError:
+						# 	raise ValueError("Cena musi byc liczba")
 
-						products[pid] = Product(pid, name, cat, float(price))
+						products[pid] = Product(pid, name, cat, price)
 					
 					except ValueError as e:
 						errors.append(f"Linia {i} (PRODUCTS): {e}")
@@ -81,16 +81,16 @@ class FileProcessor:
 						if pid not in products:
 							raise ValueError("Nieznany produkt")
 						
-						try:
-							quantity = int(quantity)
-						except ValueError:
-							raise ValueError("Ilosc musi byc liczba")
+						# try:
+						# 	quantity = int(quantity)
+						# except ValueError:
+						# 	raise ValueError("Ilosc musi byc liczba")
 
 						date_obj = datetime.strptime(date, "%d.%m.%Y").date()
 
 						dataset.add(SaleRecord(
 							products[pid],
-							int(quantity),
+							quantity,
 							date_obj,
 							seller,
 							region

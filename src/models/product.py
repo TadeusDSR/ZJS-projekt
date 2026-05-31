@@ -41,6 +41,11 @@ class Product:
 
 	@price.setter
 	def price(self, value):
+		try:
+			value = float(value)
+		except ValueError:
+			raise ValueError(f"Cena musi byc liczba")
+
 		if value <= 0:
 			raise ValueError(f"Niepoprawna cena: {value}")
 		self._price = value
