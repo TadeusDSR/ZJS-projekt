@@ -1,7 +1,24 @@
-from datetime import datetime
+import re
+import datetime
 from src.models.product import Product
 from src.models.sale_record import SaleRecord
 from src.models.sales_dataset import SalesDataset
+
+RE_SEPERATOR = re.compile(r'^---$')
+RE_HEADER_FIELD = re.compile(r'(?P<key>.+):(?P<value>.+)')
+RE_DATE = re.compile(r'(?P<day>.+)\.(?P<month>.+)\.(?P<year>.+)')
+RE_PRODUCT_LINE = re.compile(r'(?P<id>.+)\|(?P<name>.+)\|(?P<category>.+)\|(?P<price>.+)')
+RE_TRANSACTION_LINE = re.compile(r"""
+	(?P<date>.+)
+	\|
+	(?P<pid>.+)	
+	\|
+	(?P<quantity>.+)
+	\|
+	(?P<seller>.+)
+	\|
+	(?P<region>.+)
+	""", re.VERBOSE)
 
 class SdfParseError(Exception):
 	pass
@@ -30,7 +47,7 @@ class FileProcessor:
 		for i, raw in enumerate(lines, start=1):
 			line = raw.strip()
 
-			if not line or line == "---":
+			if not line or RE_SEPERATOR.match(line):
 				continue
 
 			if line.startswith("#"):
@@ -48,51 +65,72 @@ class FileProcessor:
 			
 			try:
 				if section == "DATASET":
-					if ":" in line:
-						key, value = line.split(":", 1)
-						metadata[key.strip()] = value.strip()
+					try:
+						match = RE_HEADER_FIELD.match(line)
+
+						if not match:
+							raise ValueError(f"Niepoprawny format pola")
+						
+						metadata[match.group("key")] = match.group("value")
+
+					except ValueError as e:
+						errors.append(f"Linia {i} (DATASET): {e}")
 
 				elif section == "PRODUCTS":
 					try:
-						try:
-							pid, name, cat, price = line.split("|")
-						except ValueError:
+						match = RE_PRODUCT_LINE.match(line)
+						
+						if not match:
 							raise ValueError("Niepoprawna ilosc pol")
 						
-						# try:
-						# 	price = float(price)
-						# except ValueError:
-						# 	raise ValueError("Cena musi byc liczba")
-
-						products[pid] = Product(pid, name, cat, price)
+						products[match.group("id")] = Product(
+							match.group("id"),
+							match.group("name"),
+							match.group("category"),
+							match.group("price")
+							)
 					
 					except ValueError as e:
 						errors.append(f"Linia {i} (PRODUCTS): {e}")
 
 				elif section == "TRANSACTIONS":
 					try:
-						try:
-							date, pid, quantity, seller, region = line.split("|")
-						except ValueError:
+						match = RE_TRANSACTION_LINE.match(line)
+
+						if not match:
 							raise ValueError(f"Niepoprawna ilosc pol")
 
-						if pid not in products:
+						if match.group("pid") not in products:
 							raise ValueError("Nieznany produkt")
 						
-						# try:
-						# 	quantity = int(quantity)
-						# except ValueError:
-						# 	raise ValueError("Ilosc musi byc liczba")
+						date = match.group("date")
+						date_match = RE_DATE.match(date)
 
-						date_obj = datetime.strptime(date, "%d.%m.%Y").date()
+						if not date_match:
+							raise ValueError("Niepoprawny format daty")
+
+						day = int(date_match.group("day"))
+						month = int(date_match.group("month"))
+						year = int(date_match.group("year"))
+
+						if not 1 <= day <= 31:
+							raise ValueError("Niepoprawna data dnia")
+						
+						if not 1 <= month <= 12:
+							raise ValueError("Niepoprawna data miesiaca")
+						
+						if not 1000 <= year <= 9999:
+							raise ValueError("Niepoprawna data roku")
+						
+						date_obj = datetime.date(year, month, day)
 
 						dataset.add(SaleRecord(
-							products[pid],
-							quantity,
+							products[match.group("pid")],
+							match.group("quantity"),
 							date_obj,
-							seller,
-							region
-					))
+							match.group("seller"),
+							match.group("region")
+						))
 
 					except ValueError as e:
 						errors.append(f"Linia {i} (TRANSACTIONS): {e}")

@@ -4,9 +4,6 @@ class SaleRecord:
 	VALID_REGIONS = {"WA","KR","GD","PO","WR","LO","RZ","BY","ZG","OP"}
 	
 	def __init__(self, product, quantity, date, seller, region):
-		# if not isinstance(quantity, int):
-		# 	raise ValueError("Ilosc musi byc liczba")
-
 		if not seller.strip():
 			raise ValueError("Sprzedawca nie moze byc pusty")
 	
