@@ -3,7 +3,6 @@ from src.models.product import Product
 from src.models.sale_record import SaleRecord
 from src.models.sales_dataset import SalesDataset
 
-
 class SdfParseError(Exception):
 	pass
 
