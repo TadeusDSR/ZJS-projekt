@@ -1,13 +1,15 @@
 try:
-	from openpyxl import Workbook
-	from openpyxl.styles import Font
+    from openpyxl import Workbook
+    from openpyxl.styles import Font
+    HAS_OPENPYXL = True
 except ImportError:
-	raise ImportError(
-		"Brak biblioteki openpyxl. Zainstaluj: pip install openpyxl"
-	)
+    HAS_OPENPYXL = False
 
 class ExcelExporter:
     def export(self, dataset, statistics, filepath: str) -> None:
+        if not HAS_OPENPYXL:
+            raise ImportError("Brak openpyxl. Zainstaluj: pip install openpyxl")
+            
         try:
             wb = Workbook()
         except OSError as e:

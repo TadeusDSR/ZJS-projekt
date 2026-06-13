@@ -3,6 +3,8 @@ import json
 from datetime import datetime
 from src.io.file_processor import FileProcessor, SdfParseError
 from src.analysis.statistics import SalesStatistics
+from src.io.excel_exporter import ExcelExporter
+from src.db.database import SalesDatabase, DatabaseError
 
 
 class ConsoleApp:
@@ -13,6 +15,7 @@ class ConsoleApp:
 		self.errors = []
 		self.metadata = {}
 		self.reports_dir = reports_dir
+		self.database = SalesDatabase()
 
 	def run(self):
 		while True:
@@ -24,25 +27,31 @@ class ConsoleApp:
 			print("4. Raport TXT")
 			print("5. Eksport JSON")
 			print("6. Informacje o zbiorze")
+			print("7. Eksport Excel")
+			print("8. Baza danych")
 			print("0. Wyjście")
 
 			choice = input(">> ")
 
 			try:
 				if choice == "1":
-						self.load()
+					self.load()
 				elif choice == "2":
-						self.show_stats()
+					self.show_stats()
 				elif choice == "3":
-						self.filter_menu()
+					self.filter_menu()
 				elif choice == "4":
-						self.export_txt()
+					self.export_txt()
 				elif choice == "5":
-						self.export_json()
+					self.export_json()
 				elif choice == "6":
-						self.info()
+					self.info()
+				elif choice == "7":
+					self.export_excel()
+				elif choice == "8":
+					self.database_menu()
 				elif choice == "0":
-						break
+					break
 			except Exception as e:
 				print("Błąd:", e)
 
@@ -238,3 +247,126 @@ class ConsoleApp:
 		print("Kategorie:", self.dataset.categories())
 		print("Sprzedawcy:", self.dataset.sellers())
 		print("Regiony:", self.dataset.regions())
+
+	def export_excel(self):
+		if not self.dataset:
+			print("Brak danych")
+			return
+
+		try:
+			exporter = ExcelExporter()
+
+			now = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+			index = self.metadata.get("index", "unknown")
+
+			filename = f"{index}_excel_{now}.xlsx"
+			path = os.path.join(self.reports_dir, filename)
+
+			os.makedirs(self.reports_dir, exist_ok=True)
+
+			stats = SalesStatistics(self.dataset)
+
+			exporter.export(self.dataset, stats, path)
+
+			print("Zapisano Excel:", path)
+
+		except Exception as e:
+			print("Błąd eksportu Excel:", e)
+
+	def database_menu(self):
+		while True:
+			if self.database.is_connected():
+				print("[połączono]")
+
+			print("a) Połącz z bazą")
+			print("b) Utwórz schemat")
+			print("c) Importuj dane")
+			print("d) Zapytania analityczne")
+			print("e) Usuń schemat")
+			print("0) Powrót")
+
+			choice = input(">> ")
+
+			try:
+				if choice == "a":
+					self.connect_db()
+
+				elif choice == "b":
+					if not self.database.is_connected():
+						print("Brak połączenia")
+						continue
+					self.database.create_schema()
+					print("OK: schema utworzona")
+
+				elif choice == "c":
+					if not self.database.is_connected():
+						print("Brak połączenia")
+						continue
+					count = self.database.import_dataset(self.dataset)
+					print(f"Zaimportowano: {count}")
+
+				elif choice == "d":
+					if not self.database.is_connected():
+						print("Brak połączenia")
+						continue
+					self.db_queries_menu()
+
+				elif choice == "e":
+					if not self.database.is_connected():
+						print("Brak połączenia")
+						continue
+
+					confirm = input("Wpisz 'tak' aby usunąć: ")
+					if confirm.lower() == "tak":
+						self.database.drop_schema()
+						print("Usunięto schemat")
+
+				elif choice == "0":
+					break
+
+			except DatabaseError as e:
+				print("DB ERROR:", e)
+
+	def connect_db(self):
+		host = input("host: ")
+		port = input("port: ")
+		dbname = input("dbname: ")
+		user = input("user: ")
+		password = input("password: ")
+
+		self.database.connect(host, port, dbname, user, password)
+
+		print(f"Połączono z {host}/{dbname}")
+
+	def db_queries_menu(self):
+		while True:
+			print("1. Przychód wg kategorii")
+			print("2. Top 5 sprzedawców")
+			print("3. Podsumowanie miesięczne")
+			print("4. Liczba transakcji")
+			print("0. Powrót")
+
+			choice = input(">> ")
+
+			try:
+				if choice == "1":
+					self.print_money_table(self.database.get_revenue_by_category())
+
+				elif choice == "2":
+					self.print_money_table(self.database.get_top_sellers(5))
+
+				elif choice == "3":
+					self.print_money_table(self.database.get_monthly_summary())
+
+				elif choice == "4":
+					print("Transakcje:", self.database.get_transaction_count())
+
+				elif choice == "0":
+					break
+
+			except DatabaseError as e:
+				print("DATABASSE ERROR:", e)
+
+	def print_money_table(self, data):
+		for k, v in data:
+			print(f"{k}: {v:,.2f} PLN".replace(",", " "))
