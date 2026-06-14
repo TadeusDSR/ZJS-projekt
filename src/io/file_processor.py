@@ -48,9 +48,12 @@ class FileProcessor:
 			
 			try:
 				if section == "DATASET":
-					if ":" in line:
+					try:
 						key, value = line.split(":", 1)
-						metadata[key.strip()] = value.strip()
+					except ValueError:
+						raise ValueError("Niepoprawny format pol")
+				
+					metadata[key.strip()] = value.strip()
 
 				elif section == "PRODUCTS":
 					try:
