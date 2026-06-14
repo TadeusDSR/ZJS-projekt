@@ -92,7 +92,7 @@ class SalesDatabase:
                     for r in dataset
                 ]
 
-                cursor.executemany("""
+                execute_batch(cursor, """
                     INSERT INTO products (product_id, name, category, unit_price)
                     VALUES (%s, %s, %s, %s)
                     ON CONFLICT (product_id) DO NOTHING
