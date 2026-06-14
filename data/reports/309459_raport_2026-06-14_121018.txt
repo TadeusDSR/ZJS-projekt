@@ -1,0 +1,35 @@
+DATASET
+owner: Tadeus da Silva Rodrigues
+index: 309459
+created: 20.04.2026
+currency: PLN
+
+STATYSTYKI
+Łączny przychód: 239.10 PLN
+Średnia transakcja: 5.98 PLN
+Liczba transakcji: 40
+Suma parzystych miesiecy: 220.40000000000003
+
+MIESIĘCZNIE
+2025-09: 3.20 PLN
+2025-10: 217.40 PLN
+2025-11: 2.50 PLN
+2025-12: 3.00 PLN
+2026-01: 8.00 PLN
+2026-03: 5.00 PLN
+
+SPRZEDAWCY
+EVER: 67.69 PLN
+KRZAK: 61.36 PLN
+WARS: 58.18 PLN
+DUSS: 51.87 PLN
+
+REGIONY
+KR: 49.87 PLN
+BY: 47.36 PLN
+GD: 40.48 PLN
+WA: 34.79 PLN
+WR: 34.00 PLN
+PO: 13.50 PLN
+LO: 12.70 PLN
+ZG: 6.40 PLN

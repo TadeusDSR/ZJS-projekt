@@ -1,3 +1,5 @@
+import re
+
 class SalesStatistics:
     def __init__(self, dataset):
         self.dataset = dataset
@@ -51,3 +53,14 @@ class SalesStatistics:
 
     def best_month(self):
         return max(self.monthly_summary().items(), key=lambda x: x[1])
+    
+    def sum_of_even_months(self):
+        REGEX = re.compile(r'\d+-(?P<month>\d+)')
+        result = 0
+        for item in self.monthly_summary().items():
+            match =  REGEX.match(item[0])
+            # print(int(match.group("month")))
+            if not int(match.group("month")) % 2:
+                result += item[1]
+        
+        return result

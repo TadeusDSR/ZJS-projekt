@@ -24,25 +24,28 @@ class ConsoleApp:
 			print("4. Raport TXT")
 			print("5. Eksport JSON")
 			print("6. Informacje o zbiorze")
+			print("7. Statystki dla parzystych miesiecy")
 			print("0. Wyjście")
 
 			choice = input(">> ")
 
 			try:
 				if choice == "1":
-						self.load()
+					self.load()
 				elif choice == "2":
-						self.show_stats()
+					self.show_stats()
 				elif choice == "3":
-						self.filter_menu()
+					self.filter_menu()
 				elif choice == "4":
-						self.export_txt()
+					self.export_txt()
 				elif choice == "5":
-						self.export_json()
+					self.export_json()
 				elif choice == "6":
-						self.info()
+					self.info()
+				elif choice == "7":
+					self.even_months()
 				elif choice == "0":
-						break
+					break
 			except Exception as e:
 				print("Błąd:", e)
 
@@ -98,6 +101,10 @@ class ConsoleApp:
 		month = stats.best_month()
 		if month:
 			print(f"Najlepszy miesiąc: {month[0]} ({month[1]:,.2f} PLN)".replace(",", " "))
+
+		sum_even_months = stats.sum_of_even_months()
+		if sum_even_months:
+			print(f"Suma wszystich parzystych miesiecy: {sum_even_months}")
 
 		print("\nPrzychód wg kategorii:")
 		cat = stats.by_category()
@@ -175,6 +182,7 @@ class ConsoleApp:
 		lines.append(f"Łączny przychód: {total:,.2f} PLN".replace(",", " "))
 		lines.append(f"Średnia transakcja: {avg:,.2f} PLN".replace(",", " "))
 		lines.append(f"Liczba transakcji: {len(self.dataset)}")
+		lines.append(f"Suma parzystych miesiecy: {stats.sum_of_even_months()}")
 
 		lines.append("\nMIESIĘCZNIE")
 		for key, value in stats.monthly_summary().items():
@@ -208,7 +216,8 @@ class ConsoleApp:
 				"by_category": stats.by_category(),
 				"by_region": stats.by_region(),
 				"by_seller": stats.by_seller(),
-				"monthly": stats.monthly_summary()
+				"monthly": stats.monthly_summary(),
+				"sum_of_even_months": stats.sum_of_even_months()
 			},
 			"records": [record.to_dict() for record in self.dataset]
 		}
@@ -222,7 +231,7 @@ class ConsoleApp:
 		os.makedirs(self.reports_dir, exist_ok=True)
 
 		with open(path, "w", encoding="utf-8") as f:
-			json.dump(data, f, indent=2, ensure_ascii=False)
+			json.dump(data, f, indent=4, ensure_ascii=False)
 
 		print("Zapisano:", path)
 
@@ -238,3 +247,12 @@ class ConsoleApp:
 		print("Kategorie:", self.dataset.categories())
 		print("Sprzedawcy:", self.dataset.sellers())
 		print("Regiony:", self.dataset.regions())
+
+	def even_months(self):
+		if not self.dataset:
+			print("Brak danych")
+			return
+	
+		stats = SalesStatistics(self.dataset)
+
+		print(stats.sum_of_even_months())
