@@ -27,11 +27,6 @@ class SalesDatabase:
             )
             self.conn.autocommit = False
 
-        except ImportError:
-            raise ImportError(
-                "Brak psycopg2. Zainstaluj: pip install psycopg2-binary"
-            )
-
         except psycopg2.Error as e:
             raise DatabaseError(f"Błąd połączenia z bazą: {e}")
 
@@ -45,8 +40,8 @@ class SalesDatabase:
 
     def create_schema(self):
         try:
-            with self.conn.cursor() as cur:
-                cur.execute("""
+            with self.conn.cursor() as cursor:
+                cursor.execute("""
                     CREATE TABLE IF NOT EXISTS products (
                         product_id   VARCHAR(10) PRIMARY KEY,
                         name         VARCHAR(255) NOT NULL,
@@ -55,7 +50,7 @@ class SalesDatabase:
                     );
                 """)
 
-                cur.execute("""
+                cursor.execute("""
                     CREATE TABLE IF NOT EXISTS transactions (
                         id           SERIAL PRIMARY KEY,
                         sale_date    DATE NOT NULL,
@@ -75,9 +70,9 @@ class SalesDatabase:
 
     def drop_schema(self):
         try:
-            with self.conn.cursor() as cur:
-                cur.execute("DROP TABLE IF EXISTS transactions;")
-                cur.execute("DROP TABLE IF EXISTS products;")
+            with self.conn.cursor() as cursor:
+                cursor.execute("DROP TABLE IF EXISTS transactions;")
+                cursor.execute("DROP TABLE IF EXISTS products;")
 
             self.conn.commit()
 
@@ -87,7 +82,7 @@ class SalesDatabase:
 
     def import_dataset(self, dataset) -> int:
         try:
-            with self.conn.cursor() as cur:
+            with self.conn.cursor() as cursor:
 
                 product_rows = [
                     (r.product.product_id,
@@ -97,7 +92,7 @@ class SalesDatabase:
                     for r in dataset
                 ]
 
-                cur.executemany("""
+                cursor.executemany("""
                     INSERT INTO products (product_id, name, category, unit_price)
                     VALUES (%s, %s, %s, %s)
                     ON CONFLICT (product_id) DO NOTHING
@@ -115,7 +110,7 @@ class SalesDatabase:
                     for r in dataset
                 ]
 
-                execute_batch(cur, """
+                execute_batch(cursor, """
                     INSERT INTO transactions
                     (sale_date, product_id, quantity, seller, region_code, total_value)
                     VALUES (%s, %s, %s, %s, %s, %s)
@@ -130,54 +125,54 @@ class SalesDatabase:
 
     def get_revenue_by_category(self):
         try:
-            with self.conn.cursor() as cur:
-                cur.execute("""
+            with self.conn.cursor() as cursor:
+                cursor.execute("""
                     SELECT p.category, SUM(t.total_value)
                     FROM transactions t
                     JOIN products p ON t.product_id = p.product_id
                     GROUP BY p.category
                     ORDER BY SUM(t.total_value) DESC
                 """)
-                return cur.fetchall()
+                return cursor.fetchall()
 
         except psycopg2.Error as e:
             raise DatabaseError(f"revenue_by_category error: {e}")
 
     def get_top_sellers(self, n=5):
         try:
-            with self.conn.cursor() as cur:
-                cur.execute("""
+            with self.conn.cursor() as cursor:
+                cursor.execute("""
                     SELECT seller, SUM(total_value)
                     FROM transactions
                     GROUP BY seller
                     ORDER BY SUM(total_value) DESC
                     LIMIT %s
                 """, (n,))
-                return cur.fetchall()
+                return cursor.fetchall()
 
         except psycopg2.Error as e:
             raise DatabaseError(f"top_sellers error: {e}")
 
     def get_monthly_summary(self):
         try:
-            with self.conn.cursor() as cur:
-                cur.execute("""
+            with self.conn.cursor() as cursor:
+                cursor.execute("""
                     SELECT TO_CHAR(sale_date, 'YYYY-MM') AS month,
                            SUM(total_value)
                     FROM transactions
                     GROUP BY month
                     ORDER BY month
                 """)
-                return cur.fetchall()
+                return cursor.fetchall()
 
         except psycopg2.Error as e:
             raise DatabaseError(f"monthly_summary error: {e}")
 
     def get_transaction_count(self) -> int:
         try:
-            with self.conn.cursor() as cur:
-                cur.execute("SELECT COUNT(*) FROM transactions;")
-                return cur.fetchone()[0]
+            with self.conn.cursor() as cursor:
+                cursor.execute("SELECT COUNT(*) FROM transactions;")
+                return cursor.fetchone()[0]
 
         except psycopg2.Error as e:
             raise DatabaseError(f"transaction_count error: {e}")

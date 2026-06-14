@@ -275,9 +275,6 @@ class ConsoleApp:
 
 	def database_menu(self):
 		while True:
-			if self.database.is_connected():
-				print("[połączono]")
-
 			print("a) Połącz z bazą")
 			print("b) Utwórz schemat")
 			print("c) Importuj dane")
