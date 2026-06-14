@@ -98,7 +98,7 @@ class SalesDatabase:
                     ON CONFLICT (product_id) DO NOTHING
                 """, product_rows)
 
-                tx_rows = [
+                transaction_rows = [
                     (
                         r.date,
                         r.product.product_id,
@@ -114,10 +114,10 @@ class SalesDatabase:
                     INSERT INTO transactions
                     (sale_date, product_id, quantity, seller, region_code, total_value)
                     VALUES (%s, %s, %s, %s, %s, %s)
-                """, tx_rows)
+                """, transaction_rows)
 
             self.conn.commit()
-            return len(tx_rows)
+            return len(transaction_rows)
 
         except psycopg2.Error as e:
             self.conn.rollback()
